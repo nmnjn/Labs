@@ -13,9 +13,9 @@ NODE head = NULL;
 struct node *makeNewNode(int item) 
 { 
     struct node *temp =  (struct node *)malloc(sizeof(struct node)); 
-    temp->key = item; 
-    temp->left = temp->right = NULL; 
-    return temp; 
+    temp->val = item; 
+    temp->llink = temp->rlink = NULL; 
+    return temp;
 } 
 
 // function to create the list
