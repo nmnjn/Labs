@@ -95,7 +95,7 @@ void addEdge(GRAPH graph, int src, int dest) {
 	else {
 		NODE lastNode = ((graph->values)+src)->head;
 		while(lastNode->next != NULL) {
-			lastNode = lastNode->next;
+			lastNode = lastNode->next; 
 		}
 		lastNode->next = temp;
 	}
