@@ -19,7 +19,7 @@ int GCD(int m, int n){
 }
 
 int main(){
-	int a = GCD(1000, 50);
+	int a = GCD(66, 96);
 	printf("%d\n", a);
 	return 0;
 }
