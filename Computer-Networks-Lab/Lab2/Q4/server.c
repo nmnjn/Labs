@@ -1,62 +1,18 @@
-#include<stdio.h>
-#include<string.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
-#include<stdlib.h>
-#include<unistd.h>
+// #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
+// #include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+#include "../../ServerHeader.h"
 
-#define PORTNO 8000
-
-struct sockaddr_in createSocketWithAddress(){
-	struct sockaddr_in address;
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(PORTNO);
-	return address;
-}
-
-int CreateServerSocket(){
-	int sockfd, status;
-	struct sockaddr_in serverAddress;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	//check of socket error
-	if (sockfd == -1){
-		printf("%s", "failed to create socket");
-		exit(1);
-	}
-	serverAddress = createSocketWithAddress();
-	status = bind(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
-	
-	if (status == -1){
-		printf("%s", "failed to bind socket");
-		exit(1);
-	}
-
-	status = listen(sockfd, 5);
-
-	if (status == -1){
-		printf("%s", "failed to listen");
-		exit(1);
-	}
-
-	return sockfd;
-}
-
-int main(){
-	int sockfd, newsockfd, portno, clilen, n=1;
-	struct sockaddr_in seraddr, cliaddr;
-	int i, value;
+void PerformServerTask(int sockfd){
+	int newsockfd, clilen, n=1;
+	struct sockaddr_in clientAddress;
     int val1, val2, convertedVal1, convertedVal2;
     float result;
     char ch;
-	sockfd = CreateServerSocket();
     printf("REMOTE MATH SERVER STARTED\n");
 	while(1){
 		//accept the connection
 		clilen = sizeof(clilen);
-		newsockfd = accept(sockfd, (struct sockaddr *)&cliaddr, &clilen);
+		newsockfd = accept(sockfd, (struct sockaddr *)&clientAddress, &clilen);
 		//fork to create a process for this client and perform a test to see whether
 		//you're the parent or the child:
 		if (fork() == 0){
@@ -108,4 +64,10 @@ int main(){
 			close(newsockfd);
 		}
 	}
+}
+
+int main(){
+	int sockfd;
+	sockfd = CreateServerSocket();
+	PerformServerTask(sockfd);
 }

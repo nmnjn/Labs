@@ -1,49 +1,5 @@
-#include<stdio.h>
-#include<string.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
-#include<stdlib.h>
-#include<unistd.h>
-
-#define PORTNO 8000
-
-struct sockaddr_in createSocketWithAddress(){
-	struct sockaddr_in address;
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(PORTNO);
-	return address;
-}
-
-int CreateServerSocket(){
-	int sockfd, status;
-	struct sockaddr_in serverAddress;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	//check of socket error
-	if (sockfd == -1){
-		printf("%s", "failed to create socket");
-		exit(1);
-	}
-	serverAddress = createSocketWithAddress();
-
-	status = bind(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
-	
-	if (status == -1){
-		printf("%s", "failed to bind socket");
-		exit(1);
-	}
-
-	status = listen(sockfd, 5);
-
-	if (status == -1){
-		printf("%s", "failed to listen");
-		exit(1);
-	}
-
-	return sockfd;
-}
+// #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
+#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
 
 void swap(int *xp, int *yp) 
 { 
@@ -65,11 +21,10 @@ void selectionSort(int arr[], int n)
     } 
 } 
 
-int main(){
-    int array[1000];
-	int sockfd, newsockfd, clientLength, size, n = 1;
+void PerformServerTask(int sockfd){
+	int array[1000];
+	int newsockfd, clientLength, size, n = 1;
 	struct sockaddr_in clientAddress;
-	sockfd = CreateServerSocket();
 	while(1){
 		//accept the connection
 		clientLength = sizeof(clientAddress);
@@ -90,4 +45,10 @@ int main(){
 			close(newsockfd);
 		}
 	}
+}
+
+int main(){
+	int sockfd;
+	sockfd = CreateServerSocket();
+	PerformServerTask(sockfd);
 }

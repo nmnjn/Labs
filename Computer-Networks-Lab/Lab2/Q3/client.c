@@ -1,35 +1,5 @@
-#include<stdio.h>
-#include<string.h>
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
-#include<stdlib.h>
-#include<unistd.h>
-
-#define PORTNO 8000
-
-struct sockaddr_in createSocketWithAddress(){
-	struct sockaddr_in address;
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(PORTNO);
-	return address;
-}
-
-int CreateClientSocket(){
-	int len, sockfd, result;
-	struct sockaddr_in serverAddress;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	serverAddress = createSocketWithAddress();
-	len = sizeof(serverAddress);
-	result = connect(sockfd, (struct sockaddr *)&serverAddress, len);
-	if (result == -1){
-		perror("CLIENT ERROR");
-		exit(1);
-	}
-	return sockfd;
-}
+// #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
+#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
 
 void PerformClientTask(int* sockfd){
 	int n = 1;

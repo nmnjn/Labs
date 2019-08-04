@@ -1,19 +1,6 @@
 // #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
-#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
-
-int CreateClientSocket(){
-	int len, sockfd, result;
-	struct sockaddr_in serverAddress;
-	sockfd = createSocketFileDescriptor();
-	serverAddress = createSocketWithAddress();
-	len = sizeof(serverAddress);
-	result = connect(sockfd, (struct sockaddr *)&serverAddress, len);
-	if (result == -1){
-		perror("CLIENT ERROR");
-		exit(1);
-	}
-	return sockfd;
-}
+// #include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+#include "../../ServerHeader.h"
 
 void PerformClientTask(int sockfd){
 	int n = 1;
