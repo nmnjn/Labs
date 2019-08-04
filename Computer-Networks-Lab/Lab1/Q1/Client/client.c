@@ -1,4 +1,5 @@
-#include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
+// #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
+#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
 
 int CreateClientSocket(){
 	int len, sockfd, result;
@@ -14,7 +15,7 @@ int CreateClientSocket(){
 	return sockfd;
 }
 
-void PerformClientTask(int* sockfd){
+void PerformClientTask(int sockfd){
 	int n = 1;
 	char ch[256], buf[256];
 
@@ -23,22 +24,19 @@ void PerformClientTask(int* sockfd){
 		printf("Enter String: ");
 		gets(ch);
 		ch[strlen(ch)] = '\0';
-		write(*sockfd, ch, strlen(ch));
+		write(sockfd, ch, strlen(ch));
 		printf("Respone from the server is... ");
 		while(n){
-			n = read(*sockfd, buf, sizeof(buf));
+			n = read(sockfd, buf, sizeof(buf));
 			puts(buf);
 		}
 	}
 }
 
 int main(){
-	int len, result, sockfd, n=1;
-	struct sockaddr_in address;
-	char ch[256],buf[256];
-
+	int sockfd;
 	sockfd = CreateClientSocket();
-	PerformClientTask(&sockfd);
+	PerformClientTask(sockfd);
 }
 
 

@@ -26,28 +26,27 @@ int CreateServerSocket(){
 	return sockfd;
 }
 
-void PerformServerTask(int* sockfd){
-
-}
-
-int main(){
-	int sockfd, newsockfd, portno, clilen, n=1;
-	struct sockaddr_in seraddr, cliaddr;
-	int i, value;
-
-	sockfd = CreateServerSocket();
+void PerformServerTask(int sockfd){
+	int newsockfd, clilen, n=1;
+	struct sockaddr_in seraddr, clientAddress;
 
 	while(1){
 		char buf[256];
 		printf("\n%s", "server waiting for connection\n");
 
-		clilen = sizeof(cliaddr);
-		newsockfd = accept(sockfd, (struct sockaddr *)&cliaddr, &clilen);
+		clilen = sizeof(clientAddress);
+		newsockfd = accept(sockfd, (struct sockaddr *)&clientAddress, &clilen);
 		n = read(newsockfd, buf, sizeof(buf));
 		printf("\nMessage From Client: %s", buf);
 		n = write(newsockfd, buf, sizeof(buf));
 		memset(buf, 0, 255);
 	}
+}
+
+int main(){
+	int sockfd;
+	sockfd = CreateServerSocket();
+	PerformServerTask(sockfd);
 }
 
 

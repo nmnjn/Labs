@@ -5,16 +5,9 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<stdlib.h>
-#define PORTNO 8000
+#include<unistd.h>
 
-int createSocketFileDescriptor(){
-	int socketID = socket(AF_INET, SOCK_STREAM, 0);
-	if (socketID<0){
-		perror("SOCKET CREATION ERROR");
-		exit(0);
-	}
-	return socketID;
-}
+#define PORTNO 8000
 
 struct sockaddr_in createSocketWithAddress(){
 	struct sockaddr_in address;
@@ -22,20 +15,6 @@ struct sockaddr_in createSocketWithAddress(){
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(PORTNO);
 	return address;
-}
-
-int CreateClientSocket(){
-	int len, sockfd, result;
-	struct sockaddr_in serverAddress;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	serverAddress = createSocketWithAddress();
-	len = sizeof(serverAddress);
-	result = connect(sockfd, (struct sockaddr *)&serverAddress, len);
-	if (result == -1){
-		perror("CLIENT ERROR");
-		exit(1);
-	}
-	return sockfd;
 }
 
 int CreateServerSocket(){
@@ -48,7 +27,6 @@ int CreateServerSocket(){
 		exit(1);
 	}
 	serverAddress = createSocketWithAddress();
-    
 	status = bind(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
 	
 	if (status == -1){
@@ -62,16 +40,36 @@ int CreateServerSocket(){
 		printf("%s", "failed to listen");
 		exit(1);
 	}
-
 	return sockfd;
 }
 
-void terminateSocket(int sockfd){
-	int status;
-	status = close(sockfd);
-	if (status == 0){
-		printf("%s\n", "Socket Terminated");
-	}else{
-		printf("%s\n", "Failed to terminate socket");
+void PerformServerTask(int* sockfd){
+
+}
+
+int main(){
+	int sockfd, newsockfd, portno, clilen, n=1;
+	struct sockaddr_in seraddr, cliaddr;
+	int i, value;
+	char buf[256];
+
+	sockfd = CreateServerSocket();
+
+	while(1){
+		//accept the connection
+		clilen = sizeof(clilen);
+		newsockfd = accept(sockfd, (struct sockaddr *)&cliaddr, &clilen);
+		//fork to create a process for this client and perform a test to see whether
+		//you're the parent or the child:
+		if (fork() == 0){
+			n = read(newsockfd, buf, sizeof(buf));
+			printf("\nMessage From Client: %s", buf);
+			n = write(newsockfd, buf, sizeof(buf));
+			memset(buf, 0, 255);
+			close(newsockfd);
+			exit(0);
+		}else{
+			close(newsockfd);
+		}
 	}
 }
