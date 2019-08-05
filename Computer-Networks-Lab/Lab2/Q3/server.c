@@ -1,5 +1,6 @@
 // #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
-#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+// #include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+#include "../../ServerHeader.h"
 
 void swap(int *xp, int *yp) 
 { 
@@ -28,11 +29,11 @@ void PerformServerTask(int sockfd){
 	while(1){
 		//accept the connection
 		clientLength = sizeof(clientAddress);
-		newsockfd = accept(sockfd, (struct sockaddr *)&clientAddress, clientLength);
+		newsockfd = accept(sockfd, (struct sockaddr *)&clientAddress, &clientLength);
 		//fork to create a process for this client and perform a test to see whether
 		//you're the parent or the child:
 		if (fork() == 0){
-            printf("\n***NEW CLIENT ATTACHED***\n");
+			printf("\n***NEW CLIENT ATTACHED***\n");
             n = read(newsockfd, &size, sizeof(size));
 			n = read(newsockfd, array, sizeof(array));
             printf("\n***PERFORMING SORT***\n");

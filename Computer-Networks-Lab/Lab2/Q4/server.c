@@ -25,6 +25,7 @@ void PerformServerTask(int sockfd){
 			printf("\nValue 2 Received from Client is: %d\n", val2);
             n = read(newsockfd, &ch, sizeof(ch));
 			printf("\nOperand Received from Client is: %c\n", ch);
+            char buffer[256];
             switch (ch)
             {
             case '+':
@@ -50,13 +51,14 @@ void PerformServerTask(int sockfd){
                 break;
             default:
                 printf("\nInvalid Operand\n");
-                result = -1;
-                break;
+                sprintf(buffer, "Invalid Operand");
+		        n = write(newsockfd, buffer, sizeof(buffer));
+                close(newsockfd);
+                printf("\n***CLIENT TERMINATED***\n");
+			    exit(0);
             }
-            char buffer[256];
   		    sprintf(buffer, "Result is %f", result);
 		    n = write(newsockfd, buffer, sizeof(buffer));
-			// memset(buffer, 0, 256);
 			close(newsockfd);
             printf("\n***CLIENT TERMINATED***\n");
 			exit(0);

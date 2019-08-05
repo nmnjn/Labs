@@ -1,5 +1,6 @@
 // #include "/home/170905079/Desktop/Labs/CN-LAB/ServerHeader.h"
-#include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+// #include "/Users/namanjain/Developer/Labs/Computer-Networks-Lab/ServerHeader.h"
+#include "../../ServerHeader.h"
 
 void PerformClientTask(int* sockfd){
 	int n = 1;

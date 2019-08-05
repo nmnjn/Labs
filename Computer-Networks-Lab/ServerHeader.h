@@ -5,6 +5,7 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<stdlib.h>
+#include<unistd.h>
 #define PORTNO 8000
 
 int createSocketFileDescriptor(){
