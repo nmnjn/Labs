@@ -3,7 +3,7 @@
 
 void PerformServerTask(int sockfd){
 	int newsockfd, clilen, n=1;
-	struct sockaddr_in seraddr, clientAddress;
+	struct sockaddr_in clientAddress;
 
 	while(1){
 		char buf[256];
