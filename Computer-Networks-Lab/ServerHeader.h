@@ -6,8 +6,25 @@
 #include<arpa/inet.h>
 #include<stdlib.h>
 #include<unistd.h>
-#include<sys/ioctl.h>
+
 #define PORTNO 8000
+
+//for select 
+#include<sys/ioctl.h>
+
+//for UDP
+#include<fcntl.h>
+
+
+int createUDPSocketFileDescriptor(){
+	int socketID = socket(AF_INET, SOCK_DGRAM, 0);
+	if (socketID<0){
+		perror("SOCKET CREATION ERROR");
+		exit(0);
+	}
+	return socketID;
+}
+
 
 int createSocketFileDescriptor(){
 	int socketID = socket(AF_INET, SOCK_STREAM, 0);
@@ -40,10 +57,52 @@ int CreateClientSocket(){
 	return sockfd;
 }
 
+int CreateUDPClientSocket(){
+	int len, sockfd, result;
+	struct sockaddr_in serverAddress;
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	serverAddress = createSocketWithAddress();
+	len = sizeof(serverAddress);
+	result = connect(sockfd, (struct sockaddr *)&serverAddress, len);
+	if (result == -1){
+		perror("CLIENT ERROR");
+		exit(1);
+	}
+	return sockfd;
+}
+
 int CreateServerSocket(){
 	int sockfd, status;
 	struct sockaddr_in serverAddress;
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	//check of socket error
+	if (sockfd == -1){
+		printf("%s", "failed to create socket");
+		exit(1);
+	}
+	serverAddress = createSocketWithAddress();
+    
+	status = bind(sockfd, (struct sockaddr *)&serverAddress, sizeof(serverAddress));
+	
+	if (status == -1){
+		printf("%s", "failed to bind socket");
+		exit(1);
+	}
+
+	status = listen(sockfd, 5);
+
+	if (status == -1){
+		printf("%s", "failed to listen");
+		exit(1);
+	}
+
+	return sockfd;
+}
+
+int CreateUDPServerSocket(){
+	int sockfd, status;
+	struct sockaddr_in serverAddress;
+	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	//check of socket error
 	if (sockfd == -1){
 		printf("%s", "failed to create socket");
