@@ -9,8 +9,8 @@ void sendTimeToClient(int clientSocketFD){
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 	char buffer[256];
-	sprintf(buffer, "The Time is %s", asctime(timeinfo));
 	read(clientSocketFD, buffer, sizeof(buffer));
+	sprintf(buffer, "The Time is %s", asctime(timeinfo));
 	write(clientSocketFD, buffer, sizeof(buffer));
 }
 
