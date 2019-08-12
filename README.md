@@ -1,4 +1,4 @@
-# CSE 5th Semester Lab.
+# CSE 5th Semester Lab Codes.
 
 - Algorithm Lab
 - Operating Systems Lab
