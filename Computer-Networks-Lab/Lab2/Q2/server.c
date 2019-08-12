@@ -48,7 +48,7 @@ void PerformServerTask(int sockfd){
 
 					//save new client sockfd to master set
 					FD_SET(client_sockfd, &masterfds);
-					printf("Adding client with fd- %d\n", client_sockfd);
+					printf("Client %d attached to server...\n", client_sockfd);
 				}
 
 				//if it isnt the server, it must be client activity
@@ -63,11 +63,11 @@ void PerformServerTask(int sockfd){
 						//drop the client and remove it from the set
 						close(fd);
 						FD_CLR(fd, &masterfds);
-						printf("removing client from fd %d\n", fd);
+						printf("Client %d detached from server\n", fd);
 					}else{
 						read(fd, ch, sizeof(ch));
 						// sleep(5);
-						printf("Serving client on fd %d\n", fd);
+						printf("Serving Client %d...\n", fd);
 						write(fd, ch, sizeof(ch));
 					}
 				}

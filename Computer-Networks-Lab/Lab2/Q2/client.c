@@ -11,7 +11,7 @@ void PerformClientTask(int sockfd){
 		printf("Enter String: ");
 		gets(ch);
 		ch[strlen(ch)] = '\0';
-		write(sockfd, ch, strlen(ch));
+		write(sockfd, ch, sizeof(ch));
 		printf("Respone from the server is... ");
 		while(n){
 			n = read(sockfd, buf, sizeof(buf));
