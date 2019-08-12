@@ -13,6 +13,7 @@ void PerformServerTask(int sockfd){
 		//fork to create a process for this client and perform a test to see whether
 		//you're the parent or the child:
 		if (fork() == 0){
+			close(sockfd);
 			n = read(newsockfd, buf, sizeof(buf));
 			printf("\nMessage From Client: %s", buf);
 			n = write(newsockfd, buf, sizeof(buf));

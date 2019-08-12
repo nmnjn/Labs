@@ -9,7 +9,7 @@ void PerformClientTask(int sockfd){
 		printf("Enter String: ");
 		gets(ch);
 		ch[strlen(ch)] = '\0';
-		write(sockfd, ch, strlen(ch));
+		write(sockfd, ch, sizeof(ch));
 		if (strcmp(ch, "quit") == 0)
 	    {
 	         printf("Quiting..");
