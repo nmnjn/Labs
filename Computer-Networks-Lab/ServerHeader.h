@@ -60,7 +60,7 @@ int CreateClientSocket(){
 int CreateUDPClientSocket(){
 	int len, sockfd, result;
 	struct sockaddr_in serverAddress;
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	serverAddress = createSocketWithAddress();
 	len = sizeof(serverAddress);
 	result = connect(sockfd, (struct sockaddr *)&serverAddress, len);
@@ -116,14 +116,7 @@ int CreateUDPServerSocket(){
 		printf("%s", "failed to bind socket");
 		exit(1);
 	}
-
-	status = listen(sockfd, 5);
-
-	if (status == -1){
-		printf("%s", "failed to listen");
-		exit(1);
-	}
-
+	
 	return sockfd;
 }
 
