@@ -13,7 +13,7 @@ case $operand in
 		ans=`expr $number1 \- $number2`
                 echo "The difference of $number1 and $number2 is $ans"
                 ;;
-	"*")
+	'*')
 		ans=`expr $number1 \* $number2`
                 echo "The product of $number1 and $number2 is $ans"
                 ;;

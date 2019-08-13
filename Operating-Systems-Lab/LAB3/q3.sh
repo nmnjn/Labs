@@ -31,7 +31,7 @@ case $y in
 		disc=$((-$disc))
 		rootdisc=$(echo "scale=2;sqrt($disc)"|bc)
 		real=$(echo "scale=2;((-$B/(2*$A)))"|bc)
-		echo "Roots are imaginary: $real+{$rootdisc}i, $real-{$rootdisc)i" 
+        echo "Roots are imaginary: $real+{$rootdisc}i, $real-{$rootdisc}i"
 		;;
 	*) echo "INVALID"
 		;;
