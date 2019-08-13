@@ -11,7 +11,7 @@ void swap(char a[], char b[]){
 void bubbleSort(char arr[][30], int n){
 	for (int i = 1; i < n; ++i)
 	{
-		for (int j = 0; j < n-i; ++j)
+		for (int j = 0; j <= n-i; ++j)
 		{
 			if(strcmp(arr[j],arr[j+1])>0){
 				swap(arr[j], arr[j+1]);
