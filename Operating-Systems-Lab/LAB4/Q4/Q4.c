@@ -13,11 +13,11 @@ int main(){
 			perror("Fork Failed\n");
 			exit(1);
 		case 0:
-			sleep(5);
+			sleep(10);
 			printf("Child Completed\n");
 			exit(1);
 		default: 
-			sleep(10);
+			sleep(5);
 			printf("Parent Completed\n");
 			break;
 	}

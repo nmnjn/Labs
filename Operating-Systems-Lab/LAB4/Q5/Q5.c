@@ -9,4 +9,5 @@ int main(){
 	printf("Enter String\n");
 	gets(buffer);
 	write(filePointer, buffer, strlen(buffer));
+	close(filePointer);
 }
