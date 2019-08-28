@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 int minimum = 10000000;
-int mat][10];
+int mat[10][10];
+int sol[10];
 int n;
 
 void computeCost(int arr[]) {
@@ -10,11 +11,15 @@ void computeCost(int arr[]) {
 	for(i=0; i<n; i++) {
 		cost = cost + mat[i][arr[i]-1];
 	}
-	if(cost < minimum)
+
+	if(cost < minimum){
 		minimum = cost;
-turn;
+		for(i=0; i<n; i++) {
+			sol[i] = arr[i];
+		}
+	}
 }
-id swap(int *a, int *b)
+void swap(int *a, int *b)
 {
     int temp;
     temp = *a;
@@ -47,6 +52,8 @@ int main() {
 	printf("Enter number of jobs: \n");
 	scanf("%d",&n);
 
+	printf("Enter the cost matrix: \n");
+
 	for(i=0; i<n; i++) {
 		for(j=0; j<n; j++) {
 			scanf("%d",&mat[i][j]);
@@ -56,12 +63,14 @@ int main() {
 	int arr[n];
 	for(i=0; i<n; i++) {
 		arr[i] = i+1;
-		printf("%d\n", arr[i]);
 	}
 
 	permutation(arr,0,n-1);
 
 	printf("The minimum cost for the job is -> %d\n", minimum);
+
+	for (int i = 0; i < n; ++i)
+		printf("assign job %d to person %d\n", sol[i], i+1);
 }
 
 // #include<stdio.h>

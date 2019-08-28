@@ -1,9 +1,11 @@
 #include<stdio.h>
  
 void DFS(int);
-int G[10][10],visited[10],n;    //n is no of vertices and graph is sorted in array G[10][10]
- 
-void main()
+int G[10][10],visited[10],n;
+int stack[100];
+int tos = -1;
+
+int main()
 {
     int i,j;
     printf("Enter number of vertices:");
@@ -27,10 +29,12 @@ void main()
 void DFS(int i)
 {
   int j;
+  stack[++tos] = i;
 	printf("\n%d",i);
     visited[i]=1;
 	
 	for(j=0;j<n;j++)
        if(!visited[j]&&G[i][j]==1)
             DFS(j);
+
 }
