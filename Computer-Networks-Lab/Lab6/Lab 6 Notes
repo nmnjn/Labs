@@ -1,0 +1,68 @@
+IP adress 32 bit integer
+
+2 ways it can be used
+class 4 addressing 
+a, b, c, d
+first three classes are used for ono to one communication
+class d is used for multicasting
+
+classes are identified with the most significant bit -> if it is 0 it is class A network
+							if it is 10 it is class B network
+							if it is 110 it is class C network
+
+the suffix and prefix are fixed for each class
+
+prefix <- identifies network
+suffix <- identifies host in a network (no of ip addresses available to you)
+
+
+Class A : 2^8 networks, 2^24 hosts
+Class B : 2^16 networks, 2^16 hosts
+Class C : 2^24 networks, 2^8 hosts (number of networks are more, addresses are less)
+ 
+suffix : A -> 8 Bit
+	B -> 16 Bit
+	6 -> 24 Bit
+
+192.18.22.72 
+
+Class A
+starts with 10.x.x.x
+
+Class C 
+first address -> 192.18.22.0 (known as network address)
+last address -> 192.18.22.255 (known as multicasting, broadcasting address)
+
+The role of the mask (suffix all bits are one, prefix all bits are zero) -> it is possible to derive the network id from the mask and then the routing happens. 
+
+and any address with the mask, and that will result in the network address. 255.255.255.0
+
+
+Classless Notation
+172.16.22.27/24
+
+there is no classes but you have to mention the /notation -> cunstruct the network mask and calculate the network id.
+prefix length is 24 <- using as a class c address
+
+range of the address are 
+10.0.1.100/24
+
+mask: prefix are 1, suffix are 0 -> 255.255.255.0
+
+10.0.1.100 x 255.255.255.0 -> 10.0.1.0
+
+therefore range is: 10.0.1.0 to 10.0.1.255
+
+
+10.0.1.100/28
+
+10.0.1.(01100100) x 255.255.255.(11110000) -> 10.0.1.(01100000) 
+
+10.0.1.96
+
+concept of routing, first find the network id and then locate the host. (look into the router table if there is any information with the corresponding id and then take appropriate action)
+
+as the prefix length decreases the network size becomes bigger
+
+if you ping from smaller network to larger network it wont be successful.
+
