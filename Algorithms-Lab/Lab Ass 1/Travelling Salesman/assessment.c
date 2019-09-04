@@ -15,7 +15,7 @@ void computeCost(int arr[]) {
 	if(cost < minimum){
 		minimum = cost;
 		for(i=0; i<n; i++) {
-			sol[i] = arr[i];
+			sol[i] = arr[i];	
 		}
 	}
 }
