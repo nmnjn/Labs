@@ -19,29 +19,6 @@ NODE newNode(int x) {
 	return root;
 }
 
-int calulateHeight(NODE root) {
-	if (root == NULL) {
-		return 0;
-	}
-	return 1 + max(calulateHeight(root->right), calulateHeight(root->left));
-}
-
-int calculateDiameter(NODE root) {
-
-	if (root == NULL) {
-		return 0;
-	}
-
-	int leftHeight = calulateHeight(root->left);
-	int rightHeight = calulateHeight(root->right);
-
-	int leftDiameter = calculateDiameter(root->left);
-	int rightDiameter = calculateDiameter(root->right);
-
-	return max((leftHeight + rightHeight + 1), max(leftDiameter, rightDiameter));
-
-}
-
 NODE insert(NODE node, int value) 
 { 
     if (node == NULL) return newNode(value); 
@@ -50,7 +27,17 @@ NODE insert(NODE node, int value)
     else if (value > node->value) 
         node->right = insert(node->right, value);
     return node;
-} 
+}
+int count = 0;
+
+void counter(NODE root)
+{
+    if (root == NULL)
+        return;
+    counter(root->left);
+    count++;
+    counter(root->right);
+}
 
 void main() {
 
@@ -64,5 +51,6 @@ void main() {
 			root = insert(root, val);
 		}
 	}
-	printf("The diameter is: %d\n", calculateDiameter(root));
+	counter(root);
+	printf("The number of nodes are: %d\n", count);
 }
