@@ -1,186 +1,125 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h> 
+#include<stdlib.h> 
 
-#define MAX(A, B) ((A > B) ? A : B)
+struct Node 
+{ 
+	int key; 
+	struct Node *left; 
+	struct Node *right; 
+	int height; 
+}; 
+int height(struct Node *N) 
+{ 
+	if (N == NULL) 
+		return 0; 
+	return N->height; 
+} 
+int max(int a, int b) 
+{ 
+	return (a > b)? a : b; 
+} 
+struct Node* newNode(int key) 
+{ 
+	struct Node* node = (struct Node*) 
+						malloc(sizeof(struct Node)); 
+	node->key = key; 
+	node->left = NULL; 
+	node->right = NULL; 
+	node->height = 1; 
+	return(node); 
+} 
+struct Node *rightRotate(struct Node *y) 
+{ 
+	struct Node *x = y->left; 
+	struct Node *T2 = x->right; 
+ 
+	x->right = y; 
+	y->left = T2; 
 
-typedef enum { NO, YES } BOOL;
+	y->height = max(height(y->left), height(y->right))+1; 
+	x->height = max(height(x->left), height(x->right))+1; 
+	return x; 
+} 
 
-typedef struct TNode {
-	int data;
-	int height;
-	struct TNode *left;
-	struct TNode *right;
-} TNODE_t, *NODE;
+struct Node *leftRotate(struct Node *x) 
+{ 
+	struct Node *y = x->right; 
+	struct Node *T2 = y->left; 
 
-NODE initNode (int data) {
-	NODE node = (NODE)malloc(sizeof(TNODE_t));
-	node->data = data;
-	node->left = NULL;
-	node->right = NULL;
-	node->height = 1;
-	return node;
-}
+	y->left = x; 
+	x->right = T2; 
 
-int height (NODE tree) {
-	if (tree == NULL)
-		return 0;
-	return tree->height;
-}
+	x->height = max(height(x->left), height(x->right))+1; 
+	y->height = max(height(y->left), height(y->right))+1; 
 
-#pragma mark - Rotate
+	return y; 
+} 
 
-NODE rotateRight (NODE tree) {
+int getBalance(struct Node *N) 
+{ 
+	if (N == NULL) 
+		return 0; 
+	return height(N->left) - height(N->right); 
+} 
 
-	NODE left = tree->left;
-	NODE lr = left->right;
+struct Node* insert(struct Node* node, int key) 
+{ 
+	if (node == NULL) 
+		return(newNode(key)); 
 
-	left->right = tree;
-	tree->left = lr;
+	if (key < node->key) 
+		node->left = insert(node->left, key); 
+	else if (key > node->key) 
+		node->right = insert(node->right, key); 
+	else
+		return node; 
 
-	tree->height = MAX(height(tree->left), height(tree->right)) + 1;
-	left->height = MAX(height(left->left), height(left->right)) + 1;
+	node->height = 1 + max(height(node->left), 
+						height(node->right)); 
 
-	return left;
+	int balance = getBalance(node); 
 
-}
+	if (balance > 1 && key < node->left->key) 
+		return rightRotate(node); 
 
-NODE rotateLeft (NODE tree) {
+	if (balance < -1 && key > node->right->key) 
+		return leftRotate(node); 
 
-	NODE right = tree->right;
-	NODE rl = right->left;
-
-	right->left = tree;
-	tree->right = rl;
-
-	tree->height = MAX(height(tree->left), height(tree->right)) + 1;
-	right->height = MAX(height(right->left), height(right->right)) + 1;
-
-	return right;
-
-}
-
-int differenceHeights (NODE tree) {
-	if (tree == NULL)
-		return 0;
-	return height(tree->left) - height(tree->right);
-}
-
-
-NODE insertItem (NODE tree, int item) {
-
-	if (tree == NULL) {
-		return initNode(item);
-	}
-
-	if (item < tree->data) {
-		tree->left = insertItem(tree->left, item);
-	} else {
-		tree->right = insertItem(tree->right, item);
-	}
-
-	tree->height = MAX(height(tree->left), height(tree->right)) + 1;
-
-	int dh = differenceHeights(tree);
-
-	if (dh > 1) {
-		if (item > tree->left->data) {
-			tree->left = rotateLeft(tree->left);
-		}
-		return rotateRight(tree);
-	}
-
-	if (dh < -1) {
-		if (item < tree->right->data) {
-			tree->right = rotateRight(tree->right);
-		}
-		return rotateLeft(tree);
+	if (balance > 1 && key > node->left->key) 
+	{ 
+		node->left = leftRotate(node->left); 
+		return rightRotate(node); 
+	} 
+	if (balance < -1 && key < node->right->key) 
+	{ 
+		node->right = rightRotate(node->right); 
+		return leftRotate(node); 
 	} 
 
-	return tree;
-
+	return node; 
+} 
+void inOrder(struct Node *root) 
+{ 
+	if(root != NULL) 
+	{ 
+		inOrder(root->left); 
+		printf("%d ", root->key); 
+		inOrder(root->right); 
+	} 
+} 
+int main() 
+{ 
+struct Node *root = NULL; 
+int val=0;
+while(1){
+scanf("%d",&val);
+if(val==-1)
+    break;
+root = insert(root, val); 
 }
+printf("inOrder traversal of the constructed AVL"
+		" tree is \n"); 
+inOrder(root); 
 
-NODE buildTree () {
-	
-	int data;
-	NODE root = NULL;
-	
-	do {
-		printf("Enter data (-1 for break): ");
-		scanf(" %d", &data);
-		
-		if (data != -1) {
-			root = insertItem(root, data);
-		}
-
-	} while (data != -1);
-	
-	return root;
-}
-
-
-void preorderTransversal (NODE root) {
-	if (root != NULL) {
-		printf(" %d", root->data);
-		preorderTransversal(root->left);
-		preorderTransversal(root->right);
-	}
-}
-
-void inorderTransversal (NODE root) {
-	if (root != NULL) {
-		inorderTransversal(root->left);
-		printf(" %d", root->data);
-		inorderTransversal(root->right);
-	}
-}
-
-void postorderTransversal (NODE root) {
-	if (root != NULL) {
-		postorderTransversal(root->left);
-		postorderTransversal(root->right);
-		printf(" %d", root->data);
-	}
-}
-
-
-
-int main (int argc, const char * argv []) {
-	
-	NODE tree = buildTree();
-	
-	int choice;
-	BOOL displayOptions = YES;
-	do {
-
-		if (displayOptions) {
-			printf("\n 1. Preorder traversal.");
-			printf("\n 2. Inorder traversal.");
-			printf("\n 3. Postorder traversal.");
-		}
-		displayOptions = NO;
-		printf("\nChoice: ");
-		scanf(" %d", &choice);
-		
-		if (choice == 1) {
-			printf("\n   Preorder: ");
-			preorderTransversal(tree);
-		}
-		
-		else if (choice == 2) {
-			printf("\n    Inorder: ");
-			inorderTransversal(tree);
-		}
-		
-		else if (choice == 3) {
-			printf("\n  Postorder: ");
-			postorderTransversal(tree);
-		}
-		
-	} while (choice >= 1 && choice <= 4);
-	
-}
-
-
-
-
+return 0; 
+} 
