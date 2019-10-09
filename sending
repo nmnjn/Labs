@@ -1,0 +1,4 @@
+nc -q 1 <ip> 1234 < file.c
+
+
+nc -l 1234 > file.c

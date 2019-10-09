@@ -6,7 +6,7 @@ $ns color 2 Red
 set nf [open out.nam w]
 $ns namtrace-all $nf
 
-set tr [open simulate.tr w]
+set tr [open 1.tr w]
 $ns trace-all $tr
 
 proc finish {} {
